@@ -21,13 +21,13 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now()
+        [{'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/f5e372a36edfa389625da6d0cc25d905_cerberus_enhanced.tif_full.jpg', 'title': 'Cerberus Hemisphere Enhanced'}, {'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/3778f7b43bbbc89d6e3cfabb3613ba93_schiaparelli_enhanced.tif_full.jpg', 'title': 'Schiaparelli Hemisphere Enhanced'},
+            {'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/555e6403a6ddd7ba16ddb0e471cadcf7_syrtis_major_enhanced.tif_full.jpg', 'title': 'Syrtis Major Hemisphere Enhanced'}, {'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/b3c7c6c9138f57b4756be9b9c43e3a48_valles_marineris_enhanced.tif_full.jpg', 'title': 'Valles Marineris Hemisphere Enhanced'}]
     }
 
     # Stop webdriver and return data
     browser.quit()
     return data
-
-# %%
 
 
 def mars_news(browser):
@@ -59,9 +59,6 @@ def mars_news(browser):
     return news_title, news_p
 
 
-# ### Featured Images
-
-# %%
 def featured_image(browser):
     # Visit URL
     url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
@@ -88,8 +85,6 @@ def featured_image(browser):
 
     return img_url
 
-# %%
-
 
 def mars_facts():
     # Add try/except for error handling
@@ -109,15 +104,12 @@ def mars_facts():
     return df.to_html(classes="table table-striped")
 
 
+
+
+# %%
 if __name__ == "__main__":
 
     # If running as script, print scraped data
     print(scrape_all())
 
-# In[17]:
-
-
-browser.quit()
-
-
-# In[ ]:
+# %%
