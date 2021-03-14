@@ -21,8 +21,6 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now()
-        [{'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/f5e372a36edfa389625da6d0cc25d905_cerberus_enhanced.tif_full.jpg', 'title': 'Cerberus Hemisphere Enhanced'}, {'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/3778f7b43bbbc89d6e3cfabb3613ba93_schiaparelli_enhanced.tif_full.jpg', 'title': 'Schiaparelli Hemisphere Enhanced'},
-            {'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/555e6403a6ddd7ba16ddb0e471cadcf7_syrtis_major_enhanced.tif_full.jpg', 'title': 'Syrtis Major Hemisphere Enhanced'}, {'img_url': 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/images/b3c7c6c9138f57b4756be9b9c43e3a48_valles_marineris_enhanced.tif_full.jpg', 'title': 'Valles Marineris Hemisphere Enhanced'}]
     }
 
     # Stop webdriver and return data
@@ -104,6 +102,42 @@ def mars_facts():
     return df.to_html(classes="table table-striped")
 
 
+def Mars_Hemispheres(browser):
+    url = 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/index.html'
+
+    browser.visit(url)
+
+    # Parse HTML with soup
+    html_hemispheres = browser.html
+    hemisphere_soup = soup(html_hemispheres, 'html.parser')
+    hemispheres = hemisphere_soup.find_all('div', class_='item')
+
+    # 2. Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+
+    hemispheres_url = 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/'
+
+    # Loop through list of all hemisphere info
+    for x in hemispheres:
+
+        # Store title
+        title = x.find('h3').text
+
+        ending_img_url = x.find('a', class_='itemLink product-item')['href']
+
+        browser.visit(hemispheres_url + ending_img_url)
+
+        img_html = browser.html
+        img_soup = soup(img_html, 'html.parser')
+        img_url = hemispheres_url + \
+        img_soup.find('img', class_='wide-image')['src']
+
+        # Append to a dictionary
+        hemisphere_image_urls.append({'img_url': img_url, 'title': title})
+
+    return hemisphere_image_urls
 
 
 # %%
