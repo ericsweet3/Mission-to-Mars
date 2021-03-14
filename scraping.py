@@ -13,6 +13,7 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
 
     news_title, news_paragraph = mars_news(browser)
+    hemisphere_image_urls = Mars_Hemispheres(browser)
 
     # Run all scraping functions and store results in a dictionary
     data = {
@@ -20,7 +21,8 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
+        "last_modified": dt.datetime.now(),
+        "hemispheres": hemisphere_image_urls,
     }
 
     # Stop webdriver and return data
@@ -132,7 +134,7 @@ def Mars_Hemispheres(browser):
         img_html = browser.html
         img_soup = soup(img_html, 'html.parser')
         img_url = hemispheres_url + \
-        img_soup.find('img', class_='wide-image')['src']
+            img_soup.find('img', class_='wide-image')['src']
 
         # Append to a dictionary
         hemisphere_image_urls.append({'img_url': img_url, 'title': title})
